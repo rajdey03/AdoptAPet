@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Adopt A Pet - Have a Pet to Give Away</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="A1_Q8_Style.css">
+        <script src="A2_Q7_Functions.js"></script>
+    </head>
+
+    <body>
+        <div class="header">
+            <h1>Adopt-A-Pet <a href="Adopt_Home.html">
+                <img src="Assignment1/A1_Question8/A1_Q8_Pictures/AAP_logo.png" alt="AAP" class="logo">
+            </a>
+            </h1>
+            <p id="time"></p>
+        </div>
+
+        <div class="side_menu">
+            <ul>
+                <li>
+                    <a href="Adopt_Home.html">Home</a>
+                </li>
+                <li>
+                    <a href="Adopt_FindAPet.html">Find a Dog/Cat</a>
+                </li>
+                <li>
+                    <a href="Adopt_DogCare.html">Dog Care</a>
+                </li>
+                <li>
+                    <a href="Adopt_CatCare.html">Cat Care</a>
+                </li>
+                <li>
+                    <a href="Adopt_GiveAway.html">Have a Pet to Give Away</a>
+                </li>
+                <li>
+                    <a href="Adopt_Contact.html">Contact Us</a>
+                </li>
+                <li>
+                    <a href="Adopt_NewAccount.html">Create New Account</a>
+                </li>
+                <li>
+                    <a href="#" id="logout">Log Out</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <h2>
+                Giveaway a Dog/Cat Form
+            </h2>
+
+            <form action="#" id="give_pet">
+                <fieldset>
+                    <label>
+                        Select a pet:
+                        <br>
+                        <select id="pet_type_id" name="pet_type">
+                            <option value="dog">
+                                Dog
+                            </option>
+                            <option value="cat">
+                                Cat
+                            </option>
+                        </select>
+                        <br>
+                        <br>
+                    </label>
+    
+                    <label>
+                        What breed is your dog/cat?
+                        <br>
+                        <input type="text" id="breed_id" name="breed">
+                    </label>
+                    <br>
+                    <br>
+    
+                    <label>
+                        Age of Pet:
+                        <br>
+                        <select id="age_id" name="age">
+                            <option value="puppy_kitten">
+                                &lt; 1 years old
+                            </option>
+                            <option value="young">
+                                1-3 years old
+                            </option>
+                            <option value="adult">
+                                4-8 years old
+                            </option>
+                            <option value="senior">
+                                &gt; 8 years old
+                            </option>
+                        </select>
+                    </label>
+                    <br>
+                    <br>
+    
+                    <label>
+                        Gender of Pet:
+                        <br>
+                        <select id="gender_id" name="gender">
+                            <option value="male">
+                                Male
+                            </option>
+                            <option value="female">
+                                Female
+                            </option>
+                        </select>
+                    </label>
+                    <br>
+                    <br>
+    
+                    <label>
+                        Friendliness:
+                        <br>
+                        <input type="checkbox" id="friendly_dog_id" name="friendly_dog" value="with_dogs">
+                        Gets along with other dogs
+                    </label>
+                        <br>
+                    <label>
+                        <input type="checkbox" id="friendly_cat_id" name="friendly_cat" value="with_cats">
+                        Gets along with other cats
+                        <br>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="friendly_kid_id" name="friendly_kid" value="with_kids">
+                        Suitable for a family with small children
+                    </label>
+                    <br>
+                    <br>
+
+                    <label>
+                        Comments on your pet:
+                        <br>
+                        <textarea id="comments_id" name="comments" rows="5" cols="50"></textarea>
+                    </label>
+                    <br>
+                    <br>
+
+                    <label>
+                        Owner's First Name:
+                        <input type="text" name="firstname" id="firstname_id" size="20">
+                    </label>
+                    <br>
+                    <br>
+                    <label>
+                        Owner's Family Name
+                        <input type="text" name="familyname" id="familyname_id" size="20">
+                    </label>
+                    <br>
+                    <br>
+
+                    <label>
+                        Owner's Email
+                        <input type="text" name="email" id="email_id" size="20">
+                    </label>
+                </fieldset>
+                <br>
+
+                <input id="submit_give_check" type="submit" value="Submit">
+                <input type="reset" value="Reset">
+            </form>
+        </div>
+        <div id="message"></div>
+
+        <div class="footer">
+            <p>&copy; 2024 Adopt A Pet. All rights reserved.</p>
+            <p><a href="Adopt_PrivacyStatement.html">Privacy Policy / Disclaimer</a></p>
+        </div>
+        <script>
+           // Event listener for the pet registration form submission
+            document.getElementById('give_pet').addEventListener('submit', function() {
+                // Retrieve form data
+                const petType = document.getElementById('pet_type_id').value;
+                const petBreed = document.getElementById('breed_id').value;
+                const petAge = document.getElementById('age_id').value;
+                const petGender = document.getElementById('gender_id').value;
+                const ownerFirstName = document.getElementById('firstname_id').value;
+                const ownerLastName = document.getElementById('familyname_id').value;
+                const ownerEmail = document.getElementById('email_id').value;
+                const comments = document.getElementById('comments_id').value;
+
+                // Construct pet information string
+                const petInfo = `${petType}:${petBreed}:${petAge}:${petGender}:${ownerFirstName}:${ownerLastName}:${ownerEmail}:${comments}`;
+
+                // Send POST request to submit pet form data to the server
+                fetch('/submit_pet_form', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ petInfo }) // Send pet information as JSON in the request body
+                })
+                .then(response => response.text()) // Extract text from the response
+                .then(data => {
+                    document.getElementById('message').textContent = data; // Display response message on the webpage
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Log any errors that occur during the fetch request
+                    document.getElementById('message').textContent = 'An error occurred. Please try again.'; // Display error message on the webpage
+                });
+            });
+
+            // Logout logic
+            document.getElementById('logout').addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent the default behavior of the link
+                // Send GET request to logout endpoint on the server
+                fetch('/logout', {
+                    method: 'GET',
+                })
+                .then(response => response.text()) // Extract text from the response
+                .then(data => {
+                    alert(data); // Display logout confirmation message
+                    window.location.href = 'Adopt_Home.html'; // Redirect to home page after logout
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Log any errors that occur during the fetch request
+                    alert('An error occurred. Please try again.'); // Display error message
+                });
+            });
+        </script>
+    </body>
+</html>

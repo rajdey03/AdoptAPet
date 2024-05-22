@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Create Account</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="A1_Q8_Style.css">
+        <script src="A2_Q7_Functions.js"></script>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                padding: 0;
+                background-color: lightblue;
+            }
+    
+            form {
+                width: 400px;
+                padding: 20px;
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+    
+            label {
+                display: block;
+                margin-bottom: 10px;
+            }
+    
+            input[type="text"],
+            input[type="password"] {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                box-sizing: border-box;
+            }
+    
+            button[type="submit"] {
+                width: 100%;
+                padding: 10px;
+                background-color: royalblue;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+    
+            button[type="submit"]:hover {
+                background-color: #0069d9;
+            }
+    
+            #message {
+                margin-top: 10px;
+                color: red;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="header">
+            <h1>Adopt-A-Pet <a href="Adopt_Home.html">
+                <img src="Assignment1/A1_Question8/A1_Q8_Pictures/AAP_logo.png" alt="AAP" class="logo">
+            </a>
+            </h1>
+            <p id="time"></p>
+        </div>
+
+        <div class="side_menu">
+            <ul>
+                <li>
+                    <a href="Adopt_Home.html">Home</a>
+                </li>
+                <li>
+                    <a href="Adopt_FindAPet.html">Find a Dog/Cat</a>
+                </li>
+                <li>
+                    <a href="Adopt_DogCare.html">Dog Care</a>
+                </li>
+                <li>
+                    <a href="Adopt_CatCare.html">Cat Care</a>
+                </li>
+                <li>
+                    <a href="Adopt_GiveAway.html">Have a Pet to Give Away</a>
+                </li>
+                <li>
+                    <a href="Adopt_Contact.html">Contact Us</a>
+                </li>
+                <li>
+                    <a href="Adopt_NewAccount.html">Create New Account</a>
+                </li>
+            </ul>
+        </div>
+
+        <form id="registerForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
+            <button type="submit">Register</button>
+        </form>
+
+        <div id="message"></div>
+
+        <script src="A2_Q7_Functions.js"></script>
+        <script>
+             // Event listener for the registration form submission
+            document.getElementById('registerForm').addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent the default form submission behavior
+
+                // Retrieve username and password from the form fields
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                // Send a POST request to the server to register the user
+                fetch('/register', {
+                    method: 'POST', // Use the POST method
+                    headers: {
+                        'Content-Type': 'application/json' // Specify the content type as JSON
+                    },
+                    body: JSON.stringify({ username, password }) // Convert username and password to JSON and send in the request body
+                })
+                .then(response => response.text()) // Extract text from the response
+                .then(data => {
+                    document.getElementById('message').textContent = data; // Display the response message on the webpage
+                })
+                .catch(error => {
+                    console.error('Error:', error); // Log any errors that occur during the fetch request
+                    document.getElementById('message').textContent = 'An error occurred. Please try again.'; // Display an error message on the webpage
+                });
+            });
+        </script>
+
+        <div class="footer">
+            <p>&copy; 2024 Adopt A Pet. All rights reserved.</p>
+            <p><a href="Adopt_PrivacyStatement.html">Privacy Policy / Disclaimer</a></p>
+        </div>
+    </body>
+</html>
